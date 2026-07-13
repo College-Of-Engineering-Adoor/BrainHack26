@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="hb.jpeg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Hub | Brain Hack'26</title>
+    <style>
+        /* 1. Load Montserrat for small, readable paragraph text */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap');
+
+        /* 2. Load your custom Big Macca font */
+        @font-face {
+            font-family: 'Big Macca';
+            src: url('bigmacca.ttf') format('truetype');
+        }
+
+        :root {
+            --icy-blue: #ABD2FA;
+            --cornflower-blue: #7692FF;
+            --persian-blue: #1B2CC1;
+            --dusk-blue: #3D518C;
+            --deep-navy: #091540;
+            --bg-dark: #050505;
+            --text-main: #E2E8F0;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--dusk-blue);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cornflower-blue);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif; /* Default to clean font */
+        }
+
+        /* ONLY apply Big Macca to Admin Titles and the Login Button */
+        h2, h3, h4, .login-btn {
+            font-family: 'Big Macca', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(to right, rgba(61, 81, 140, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(61, 81, 140, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-attachment: fixed;
+        }
+
+        /* Particle Background Container */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+        }
+
+        /* Animated Gradient Text */
+        .animated-gradient-text {
+            background: linear-gradient(90deg, var(--icy-blue), var(--cornflower-blue), var(--persian-blue), var(--icy-blue));
+            background-size: 300% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            animation: textShine 4s linear infinite;
+        }
+
+        @keyframes textShine {
+            to { background-position: 300% center; }
+        }
+
+        /* Main Container (Glassmorphism) */
+        .admin-container {
+            background: rgba(9, 21, 64, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 50px;
+            border-radius: 15px;
+            border: 1px solid rgba(118, 146, 255, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 15px 35px rgba(27, 44, 193, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 { 
+            margin-bottom: 10px; 
+            font-size: 2.5rem;
+            text-transform: uppercase;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid var(--cornflower-blue);
+            border-radius: 8px;
+            background: rgba(5, 5, 5, 0.8);
+            color: white;
+            font-family: 'Montserrat', sans-serif; /* Set strictly to Montserrat */
+            font-weight: 600;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--icy-blue);
+            box-shadow: 0 0 10px rgba(171, 210, 250, 0.2);
+        }
+
+        /* Buttons */
+        .login-btn {
+            background: linear-gradient(45deg, var(--persian-blue), var(--cornflower-blue));
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(118, 146, 255, 0.4);
+        }
+
+        #dashboard { display: none; }
+
+        /* Updated Grid for 4 Buttons */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: rgba(27, 44, 193, 0.2);
+            border: 2px solid var(--cornflower-blue);
+            color: var(--icy-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--cornflower-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--cornflower-blue);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--dusk-blue);
+            color: #a0aec0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--icy-blue);
+            color: #ffffff;
+            background: rgba(118, 146, 255, 0.1);
+        }
+
+        /* Upgraded Communication Templates */
+        .comms-section {
+            text-align: left;
+            border-top: 1px solid var(--persian-blue);
+            padding-top: 30px;
+            margin-top: 30px;
+        }
+
+        .comms-section h3 {
+            color: var(--icy-blue);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .template-card {
+            background: rgba(5, 5, 5, 0.5);
+            border: 1px solid var(--dusk-blue);
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+
+        .template-card:hover {
+            border-color: var(--cornflower-blue);
+        }
+
+        .template-card h4 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* This ensures line breaks format correctly when copied to an email */
+        .template-card p {
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            margin-bottom: 15px;
+            white-space: pre-wrap; 
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid var(--persian-blue);
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            background: var(--dusk-blue);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .copy-btn:hover {
+            background: var(--cornflower-blue);
+            color: var(--bg-dark);
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .btn-grid {
+                grid-template-columns: 1fr; /* Stacks buttons on mobile */
+            }
+            .admin-container {
+                padding: 30px 20px;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="admin-container">
+        <div id="login-section">
+            <h2>Admin <span class="animated-gradient-text">Gateway</span></h2>
+            <p style="color: #a0aec0; margin-bottom: 20px;">Secure Access for Brain Hack'26 Organizers</p>
+            <input type="password" id="password" placeholder="Enter Access Code">
+            <button class="login-btn" onclick="checkPassword()">Authenticate</button>
+            <p id="error-msg" style="color: #ff4d4d; display: none; margin-top: 15px; font-weight: 600;">Access Denied. Incorrect Password.</p>
+        </div>
+
+        <div id="dashboard">
+            <h2>Control <span class="animated-gradient-text">Hub</span></h2>
+            <p style="color: #a0aec0; margin-bottom: 30px;">Manage registrations seamlessly through Google Workspace.</p>
+            
+            <div class="btn-grid">
+                <a href="https://docs.google.com/forms/d/1DCpE9yGZCyLAc075T-eNswmRXfI548N_jY9el5Q7K1w/edit#responses" target="_blank" class="action-btn btn-primary">
+                    Live Form Responses
+                </a>
+
+                <a href="https://docs.google.com/forms/d/1DCpE9yGZCyLAc075T-eNswmRXfI548N_jY9el5Q7K1w/edit?ts=6a5113e1" target="_blank" class="action-btn btn-primary">
+                    Edit Form Setup
+                </a>
+
+                <a href="https://docs.google.com/spreadsheets/d/1xh6h8bydJtpZdwLv936uslFqOPzmLpXoavmw0ZOl4wM/edit" target="_blank" class="action-btn btn-secondary">
+                    Open Database
+                </a>
+                
+                <a href="https://docs.google.com/spreadsheets/d/1xh6h8bydJtpZdwLv936uslFqOPzmLpXoavmw0ZOl4wM/export?format=csv" class="action-btn btn-secondary">
+                    Export to CSV
+                </a>
+            </div>
+
+            <div class="comms-section">
+                <h3>Quick-Copy Email Templates</h3>
+                
+                <div class="template-grid">
+                    
+                    <div class="template-card">
+                        <h4 style="color: var(--icy-blue);">1. Payment Verified (Confirmation) 
+                            <button class="copy-btn" onclick="copyText('msg-success', this)">Copy</button>
+                        </h4>
+                        <p id="msg-success">Subject: Brain Hack'26 Registration Confirmed! 🚀
+
+Hello Team,
+
+Welcome to Brain Hack'26! We have successfully verified your UPI payment and your team's spot in the 12-hour hackathon is officially confirmed. 
+
+Please ensure your entire team joins our official community channel for upcoming theme announcements and rules: [Insert WhatsApp/Discord Link Here]
+
+Get ready to build. We will see you at the College of Engineering Adoor!
+
+Regards,
+Brain Hack'26 Organizing Team</p>
+                    </div>
+
+                    <div class="template-card">
+                        <h4 style="color: #ff7676;">2. Payment Issue (Invalid UTR)
+                            <button class="copy-btn" onclick="copyText('msg-issue', this)">Copy</button>
+                        </h4>
+                        <p id="msg-issue">Subject: Action Required: Brain Hack'26 Registration
+
+Hello Team,
+
+We are currently reviewing your Brain Hack'26 registration. However, we were unable to verify your UPI payment using the UTR/Transaction number provided in the form.
+
+To secure your spot in the hackathon, please reply directly to this email with a clear screenshot of your successful transaction within the next 24 hours.
+
+If you have any questions, feel free to reach out. 
+
+Regards,
+Brain Hack'26 Organizing Team</p>
+                    </div>
+
+                    <div class="template-card">
+                        <h4 style="color: var(--cornflower-blue);">3. Day-Of Logistics Reminder
+                            <button class="copy-btn" onclick="copyText('msg-reminder', this)">Copy</button>
+                        </h4>
+                        <p id="msg-reminder">Subject: HackBrain26: Important Day-Of Instructions
+
+Hello Hackers,
+
+Brain Hack'26 is almost here! Check-in begins strictly at 08:00 AM at the College of Engineering Adoor main campus. 
+
+Please remember to bring:
+• Valid College ID cards for every team member.
+• Laptops, chargers, and any required hardware.
+• Extension cords/multi-plugs (highly recommended).
+
+Breakfast and lunch will be provided. Get a good night's sleep, and prepare for 12 hours of non-stop innovation!
+
+Regards,
+Brain Hack'26 Organizing Team</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <script>
+        // --- 1. Particle Background Initialization ---
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#7692FF" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { 
+                    "enable": true, "distance": 150, "color": "#1B2CC1", "opacity": 0.5, "width": 1 
+                },
+                "move": { "enable": true, "speed": 1.5, "direction": "none", "random": true, "out_mode": "out" }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "resize": true },
+                "modes": { "grab": { "distance": 180, "line_linked": { "opacity": 1 } } }
+            },
+            "retina_detect": true
+        });
+
+        // --- 2. Cryptographic Hashing Login ---
+        const expectedHash = "dd152731970ac527d0ee4d1434d203a5e3340faa924f2fe735e174dbe437bd4f";
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        async function checkPassword() {
+            const passInput = document.getElementById('password').value;
+            const hashedInput = await hashPassword(passInput);
+
+            if (hashedInput === expectedHash) {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        document.getElementById("password").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkPassword();
+            }
+        });
+
+        // --- 3. Copy to Clipboard Function ---
+        function copyText(elementId, btnElement) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "✓ Copied";
+                btnElement.style.background = "var(--persian-blue)";
+                
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = "var(--dusk-blue)";
+                }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
