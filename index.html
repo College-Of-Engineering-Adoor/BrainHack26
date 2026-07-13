@@ -111,9 +111,8 @@
         .glass-card { background: rgba(9, 21, 64, 0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(118, 146, 255, 0.2); border-radius: 15px; padding: 40px; transition: all 0.4s ease; height: 100%;}
         .glass-card:hover { transform: translateY(-5px); border-color: var(--cornflower-blue); box-shadow: 0 15px 35px rgba(27, 44, 193, 0.3); }
         
-        /* Updated Grid classes for better responsiveness */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
 
         /* Inner text formatting for Mission/Vision */
         .card-subtitle { color: var(--cornflower-blue); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;}
@@ -145,7 +144,7 @@
         .sponsor-img-wrapper img { height: 120px; width: auto; display: block; }
         
         .team-section { background: rgba(5, 5, 5, 0.8); border-top: 1px solid var(--dusk-blue); padding: 60px 10vw; text-align: center; }
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 40px; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
         .team-member h4 { color: var(--icy-blue); margin-bottom: 5px; font-family: 'Montserrat', sans-serif; font-weight: 800;}
         .team-member p { color: var(--dusk-blue); font-size: 0.9rem; font-weight: 600; margin-bottom: 10px;}
         .team-member a { display: inline-block; color: var(--cornflower-blue); text-decoration: none; font-size: 0.85rem; padding: 5px 15px; border: 1px solid rgba(118, 146, 255, 0.3); border-radius: 20px; transition: 0.3s; background: rgba(27, 44, 193, 0.1); }
@@ -158,47 +157,33 @@
         .map-container iframe { width: 100%; height: 100%; border: none; }
         .clg-logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--icy-blue); box-shadow: 0 0 15px rgba(171, 210, 250, 0.4); margin-bottom: 20px; object-fit: contain; background-color: #ffffff; padding: 8px; }
 
-        /* =========================================
-           MOBILE OPTIMIZATION (CRITICAL FOR PHONES)
-           ========================================= */
+        /* --- Mobile Optimization --- */
         @media (max-width: 768px) {
             .glass-nav { flex-direction: column; padding: 15px; gap: 15px; }
-            .glass-nav ul { gap: 12px; flex-wrap: wrap; justify-content: center; }
-            .hero { padding-top: 140px; }
-            .hero-logo { width: 100px; height: 100px; margin-bottom: 20px; margin-top: 0; }
-            .hero h1 { font-size: 3rem; }
+            .glass-nav ul { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .hero-logo { width: 110px; height: 110px; margin-bottom: 20px; margin-top: 60px; }
+            .hero h1 { font-size: 3.5rem; }
             .hero-subtitle { font-size: 1.1rem; }
-            .highlight-bar { padding: 15px; border-radius: 12px; font-size: 0.85rem; line-height: 1.5; width: 100%; max-width: 350px;}
             .countdown-container { gap: 10px; flex-wrap: wrap; justify-content: center; }
-            .time-box { min-width: 75px; padding: 10px; }
-            .time-value { font-size: 1.8rem; }
-            .time-label { font-size: 0.75rem; }
-            
+            .time-box { min-width: 80px; padding: 10px 15px; }
+            .time-value { font-size: 2rem; }
             section { padding: 60px 5vw; }
             .section-title { font-size: 2.2rem; margin-bottom: 40px; }
-            
-            /* Fix Grids for Mobile */
-            .grid-3 { grid-template-columns: 1fr; gap: 20px; }
-            .grid-2 { grid-template-columns: 1fr; gap: 20px; }
-            
-            .glass-card { padding: 25px; }
             .timeline { padding-left: 20px; }
             .timeline-item::before { left: -29px; }
-            
             .map-container { height: 250px; }
-            .sponsor-img-wrapper img { height: 90px; }
             
-            /* Table adjustments for mobile */
-            .eval-table th, .eval-table td { padding: 10px 5px; font-size: 0.85rem; }
+            /* Center texts specifically for mobile without changing structural grid widths */
+            .glass-card, .team-member, .timeline-item { text-align: center; }
+            .card-list { text-align: left; /* Keep lists readable */ }
+            .highlight-bar { padding: 10px; font-size: 0.9rem; margin: 0 auto 30px auto; display: block; max-width: 90vw; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Particle Background -->
     <div id="particles-js"></div>
 
-    <!-- Navigation -->
     <nav class="glass-nav">
         <div class="logo">Brain Hack'26</div>
         <ul>
@@ -209,14 +194,12 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
         <img src="hb.jpeg" alt="Brain Hack'26 Logo" class="hero-logo">
         
         <h1>Brain<span class="animated-gradient-text"> Hack</span>'26</h1>
         <div class="hero-subtitle">The Next Era - Code to Autonomy</div>
         
-        <!-- Live Countdown Timer -->
         <div id="countdown" class="countdown-container">
             <div class="time-box">
                 <span id="days" class="time-value">00</span>
@@ -245,12 +228,10 @@
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSctwFSz-u9MANksxIiIjd4sWm3qT7iKBrY-iIPGOXsJQ4I54g/viewform" target="_blank" class="neon-btn">Register Now</a>
     </section>
 
-    <!-- About Section -->
     <section id="about">
         <h2 class="section-title">About <span class="animated-gradient-text">The Hosts</span></h2>
         <div class="grid-3">
             
-            <!-- CEA Card -->
             <div class="glass-card">
                 <h3 style="color: var(--icy-blue); margin-bottom: 5px; font-size: 1.5rem;">College of Engineering Adoor</h3>
                 <div class="profile-text"><strong>Principal:</strong> Nisha Kuruvila <br> <strong>Dean:</strong> John George</div>
@@ -266,7 +247,6 @@
                 </ul>
             </div>
 
-            <!-- Dept of CSE Card -->
             <div class="glass-card">
                 <h3 style="color: var(--icy-blue); margin-bottom: 5px; font-size: 1.5rem;">Dept of CSE</h3>
                 <div class="profile-text"><strong>HOD:</strong> Vinod P R</div>
@@ -282,7 +262,6 @@
                 </ul>
             </div>
 
-            <!-- IHRD & IEDC Card -->
             <div class="glass-card">
                 <h3 style="color: var(--icy-blue); margin-bottom: 5px; font-size: 1.5rem;">IHRD & IEDC</h3>
                 <div class="profile-text">
@@ -297,7 +276,6 @@
         </div>
     </section>
 
-    <!-- Hackathon Details / FAQ -->
     <section id="details" style="background: rgba(9, 21, 64, 0.3); border-top: 1px solid rgba(118, 146, 255, 0.1); border-bottom: 1px solid rgba(118, 146, 255, 0.1);">
         <h2 class="section-title">Event <span class="animated-gradient-text">Details</span></h2>
         <div class="grid-3">
@@ -323,39 +301,35 @@
         </div>
     </section>
 
-    <!-- Domains Section -->
     <section id="domains">
         <h2 class="section-title">Hackathon <span class="animated-gradient-text">Domains</span></h2>
         <div class="grid-2">
-            <div class="glass-card" style="display: flex; align-items: center;">
+            <div class="glass-card" style="display: flex; align-items: center; justify-content: center;">
                 <h2 style="font-size: 3rem; margin-right: 20px;">🏙️</h2>
                 <h3 style="color: var(--icy-blue); font-size: 1.3rem;">Smart Cities & Urban Infrastructure</h3>
             </div>
-            <div class="glass-card" style="display: flex; align-items: center;">
+            <div class="glass-card" style="display: flex; align-items: center; justify-content: center;">
                 <h2 style="font-size: 3rem; margin-right: 20px;">📚</h2>
                 <h3 style="color: var(--icy-blue); font-size: 1.3rem;">Education & Smart Learning</h3>
             </div>
-            <div class="glass-card" style="display: flex; align-items: center;">
+            <div class="glass-card" style="display: flex; align-items: center; justify-content: center;">
                 <h2 style="font-size: 3rem; margin-right: 20px;">🚚</h2>
                 <h3 style="color: var(--icy-blue); font-size: 1.3rem;">Transforming Logistics & Warehousing via AI/IoT</h3>
             </div>
-            <div class="glass-card" style="display: flex; align-items: center;">
+            <div class="glass-card" style="display: flex; align-items: center; justify-content: center;">
                 <h2 style="font-size: 3rem; margin-right: 20px;">🌱</h2>
                 <h3 style="color: var(--icy-blue); font-size: 1.3rem;">Precision Agriculture & Crop Intelligence</h3>
             </div>
         </div>
     </section>
 
-    <!-- Guidelines & Evaluation Section -->
     <section id="guidelines">
         <h2 class="section-title">Criteria & <span class="animated-gradient-text">Guidelines</span></h2>
         <div class="grid-2">
             
-            <!-- Evaluation Table -->
             <div class="glass-card">
                 <h3 style="color: var(--icy-blue); text-align: center; font-size: 1.5rem; margin-bottom: 10px;">Evaluation Criteria</h3>
                 
-                <!-- Added a wrapper to ensure the table scrolls horizontally on small phones instead of breaking the page -->
                 <div class="table-wrapper">
                     <table class="eval-table">
                         <tr>
@@ -371,7 +345,7 @@
                             <td style="text-align: center; font-weight: bold;">20</td>
                         </tr>
                         <tr>
-                            <td>&lt;/&gt; Technical Implementation</td>
+                            <td></> Technical Implementation</td>
                             <td style="text-align: center; font-weight: bold;">25</td>
                         </tr>
                         <tr>
@@ -398,15 +372,14 @@
                 </div>
             </div>
 
-            <!-- General Guidelines -->
             <div class="glass-card">
                 <h3 style="color: var(--icy-blue); text-align: center; font-size: 1.5rem; margin-bottom: 20px;">General Guidelines</h3>
-                <ul class="guide-list">
+                <ul class="guide-list" style="display: inline-block; text-align: left;">
                     <li><span class="guide-icon">👥</span> Team Size: 2 – 4 members</li>
-                    <li><span class="guide-icon">💻</span> Tech Stack: Any AI/ML, IoT platforms, tools & technologies</li>
+                    <li><span class="guide-icon">💻</span> Tech Stack: Any AI/ML, IoT platforms</li>
                     <li><span class="guide-icon">💼</span> Bring your own laptop and accessories</li>
                     <li><span class="guide-icon">🤝</span> Respect time, ideas and ensure fair play</li>
-                    <li><span class="guide-icon">⚖️</span> Decision of judges will be final and binding</li>
+                    <li><span class="guide-icon">⚖️</span> Decision of judges will be final</li>
                 </ul>
                 
                 <div style="margin-top: 40px; text-align: center; border-top: 1px solid var(--dusk-blue); padding-top: 30px;">
@@ -418,7 +391,6 @@
         </div>
     </section>
 
-    <!-- Schedule Section (Unhidden per previous request) -->
     <section id="schedule">
         <h2 class="section-title">Event <span class="animated-gradient-text">Timeline</span></h2>
         <p style="text-align: center; color: var(--icy-blue); margin-bottom: 40px; font-weight: 600;">(To be updated soon)</p>
@@ -432,7 +404,6 @@
         </div>
     </section>
 
-    <!-- Sponsors Section -->
     <section id="sponsors">
         <h2 class="section-title">Powered <span class="animated-gradient-text">By</span></h2>
         <div class="sponsor-container">
@@ -443,7 +414,6 @@
         </div>
     </section>
 
-    <!-- Organizing Team -->
     <div class="team-section">
         <h3 style="font-size: 2rem; margin-bottom: 10px; color: var(--icy-blue); font-family: 'Big Macca', sans-serif;">The Organizing Team</h3>
         <p style="color: #a0aec0;">Spearheading Brain Hack'26</p>
@@ -472,7 +442,6 @@
         </div>
     </div>
 
-    <!-- Instagram Follow Section -->
     <section id="social" style="padding: 40px 10vw; text-align: center; background: rgba(27, 44, 193, 0.05);">
         <div class="glass-card" style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
             <h3 style="color: var(--icy-blue); margin-bottom: 15px;">Follow us for updates</h3>
@@ -484,12 +453,10 @@
         </div>
     </section>
 
-    <!-- Footer / Contact & Map -->
     <footer>
         <h3 style="font-size: 2rem; margin-bottom: 10px;">Brain Hack'26</h3>
         <p style="color: var(--icy-blue); font-weight: 600;">College of Engineering Adoor</p>
 
-        <!-- Google Maps Interactive Embed -->
         <div class="map-container">
             <iframe 
                 src="https://maps.google.com/maps?q=College+of+Engineering+Adoor&t=&z=13&ie=UTF8&iwloc=&output=embed" 
@@ -518,10 +485,8 @@
         </p>
     </footer>
 
-    <!-- Particles.js Library (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    <!-- Application Scripts -->
     <script>
         console.log("%c🧠 Brain Hack'26 SYSTEM ACCESSED", "color: #7692FF; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #7692FF;");
         console.log("%cAre you inspecting our code? Good. We like that. Register your team and show us what you can build.", "color: #ABD2FA; font-size: 14px;");
