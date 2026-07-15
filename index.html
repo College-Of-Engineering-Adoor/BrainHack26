@@ -166,39 +166,52 @@
         .clg-logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--icy-blue); box-shadow: 0 0 15px rgba(171, 210, 250, 0.4); margin-bottom: 20px; object-fit: contain; background-color: #ffffff; padding: 8px; }
 
         /* =========================================
-           MOBILE OPTIMIZATION (THE FIX)
+           MOBILE OPTIMIZATION (PRO FIX)
            ========================================= */
         @media (max-width: 768px) {
-            .glass-nav { flex-direction: column; padding: 15px; gap: 10px; }
-            .glass-nav ul { gap: 10px; flex-wrap: wrap; justify-content: center; }
-            .hero-logo { width: 100px; height: 100px; margin-bottom: 20px; margin-top: 60px; }
+            /* 1. Sleeker Navigation */
+            .glass-nav { flex-direction: column; padding: 15px 10px; gap: 10px; }
+            .glass-nav ul { gap: 12px; flex-wrap: wrap; justify-content: center; }
+            .glass-nav a { font-size: 0.8rem; }
             
-            /* Fits main title on one line */
-            .hero h1 { font-size: 2.5rem; } 
-            .hero-subtitle { font-size: 1rem; }
+            /* 2. Hero Section Refinements */
+            .hero { padding-top: 140px; }
+            .hero-logo { width: 90px; height: 90px; margin-bottom: 15px; margin-top: 0; }
+            .hero h1 { font-size: 2.2rem; } 
+            .hero-subtitle { font-size: 0.9rem; }
             
-            /* FORCE TIMER TO STAY ON 1 LINE */
+            /* 3. Timer - Squeeze uniformly without breaking */
             .countdown-container { 
                 gap: 5px; 
-                flex-wrap: nowrap; /* Stops the 4th box from wrapping down */
+                flex-wrap: nowrap; 
                 justify-content: center; 
                 width: 100%; 
             }
             .time-box { 
-                min-width: 0; /* Overrides the 100px desktop size */
-                flex: 1; /* Makes all 4 boxes squeeze equally */
-                padding: 10px 5px; 
+                min-width: 0; 
+                flex: 1; 
+                padding: 10px 2px; 
             }
-            .time-value { font-size: 1.4rem; }
-            .time-label { font-size: 0.6rem; }
+            .time-value { font-size: 1.2rem; }
+            .time-label { font-size: 0.55rem; }
+
+            /* 4. Highlight Bar - Stop horizontal bleed */
+            .highlight-bar { padding: 10px; font-size: 0.75rem; width: 100%; max-width: 100%; box-sizing: border-box; margin-bottom: 30px; }
             
             section { padding: 60px 5vw; }
-            .section-title { font-size: 2rem; margin-bottom: 40px; }
+            .section-title { font-size: 1.8rem; margin-bottom: 40px; }
             
-            /* DOMAINS MOBILE FIX - Stacks emoji on top, centers text */
+            /* 5. FIX THE GRIDS - Force single column stacking */
+            .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 20px; }
+            
+            /* DOMAINS MOBILE FIX */
             .domain-card { flex-direction: column; text-align: center; gap: 10px; padding: 25px 15px;}
-            .domain-icon { font-size: 3rem; }
-            .domain-text { font-size: 1.1rem; }
+            .domain-icon { font-size: 2.5rem; }
+            .domain-text { font-size: 1rem; }
+
+            /* EVAL TABLE FIX - Stop forced wide scrolling */
+            .eval-table { min-width: 100%; }
+            .eval-table th, .eval-table td { padding: 8px 5px; font-size: 0.85rem; }
 
             .timeline { padding-left: 20px; }
             .timeline-item::before { left: -29px; }
@@ -207,7 +220,6 @@
             /* Centers content cleanly */
             .glass-card, .team-member, .timeline-item { text-align: center; }
             .card-list { text-align: left; }
-            .highlight-bar { padding: 10px; font-size: 0.85rem; margin: 0 auto 30px auto; display: block; width: 95%; max-width: 400px; }
         }
     </style>
 </head>
@@ -250,7 +262,7 @@
             </div>
         </div>
 
-        <div class="highlight-bar">📅 August 2, 2026  |  ⏱️ 12-Hour Sprint  |  🏆 Prize Pool: ₹25,000</div>
+        <div class="highlight-bar">📅 August 2, 2026 &nbsp;|&nbsp; ⏱️ 12-Hour Sprint &nbsp;|&nbsp; 🏆 Prize Pool: ₹25,000</div>
 
         <p class="hero-details">
             Powered by Dept of CSE, College Of Engineering Adoor<br>
@@ -365,7 +377,7 @@
                             <td style="text-align: center; font-weight: bold;">20</td>
                         </tr>
                         <tr>
-                            <td></> Technical Implementation</td>
+                            <td>💻 Technical Implementation</td>
                             <td style="text-align: center; font-weight: bold;">25</td>
                         </tr>
                         <tr>
