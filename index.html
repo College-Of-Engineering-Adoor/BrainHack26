@@ -140,10 +140,20 @@
         .eval-table td { padding: 12px 10px; border-bottom: 1px solid rgba(118, 146, 255, 0.1); font-size: 0.95rem;}
         .eval-table tr:last-child td { border-bottom: none; border-top: 2px solid var(--icy-blue); font-weight: 900; color: var(--icy-blue); font-size: 1.1rem;}
 
-        /* --- Guidelines List --- */
+        /* --- Guidelines List & Policies --- */
         .guide-list { list-style: none; padding: 0; margin-top: 20px;}
         .guide-list li { margin-bottom: 18px; display: flex; align-items: center; font-size: 1rem; font-weight: 600;}
-        .guide-icon { font-size: 1.5rem; margin-right: 15px; background: rgba(27, 44, 193, 0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--dusk-blue);}
+        .guide-icon { font-size: 1.5rem; margin-right: 15px; background: rgba(27, 44, 193, 0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--dusk-blue); flex-shrink: 0;}
+        
+        /* New dedicated policy grid to prevent mobile spill */
+        .policy-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            text-align: left; 
+            margin-top: 0;
+        }
+        .policy-grid li { align-items: flex-start; }
 
         /* --- Timeline --- */
         .timeline { max-width: 800px; margin: 0 auto; border-left: 3px solid var(--persian-blue); padding-left: 40px; position: relative; }
@@ -204,9 +214,13 @@
             /* 5. FIX THE GRIDS - Force single column stacking */
             .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 20px; }
             
+            /* POLICY GRID MOBILE FIX - Stops horizontal spilling */
+            .policy-grid { grid-template-columns: 1fr; }
+            .guide-icon { font-size: 1.2rem; padding: 8px; margin-right: 10px; }
+
             /* DOMAINS MOBILE FIX */
             .domain-card { flex-direction: column; text-align: center; gap: 10px; padding: 25px 15px;}
-            .domain-icon { font-size: 2.5rem; }
+            .domain-icon { font-size: 2.5rem; margin-right: 0;}
             .domain-text { font-size: 1rem; }
 
             /* EVAL TABLE FIX - Stop forced wide scrolling */
@@ -425,40 +439,40 @@
         <div class="glass-card" style="margin-top: 40px;">
             <h3 style="color: var(--icy-blue); text-align: center; font-size: 1.5rem; margin-bottom: 30px;">Internet & AI Usage Policy</h3>
             
-            <ul class="guide-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; text-align: left; margin-top: 0;">
-                <li style="align-items: flex-start;">
+            <ul class="guide-list policy-grid">
+                <li>
                     <span class="guide-icon">📶</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Connectivity:</strong> High-speed Wi-Fi will be provided to all participants throughout the hackathon.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">🌐</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Approved Usage:</strong> Internet access is intended only for project development, research, documentation, and use of approved APIs, libraries, and open-source resources.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">🧩</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Resources & Attribution:</strong> Teams may use publicly available frameworks, datasets, and APIs with proper attribution.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">🚫</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">No Plagiarism:</strong> Downloading or copying complete project source code from external repositories and presenting it as original work is strictly prohibited.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">🤖</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">AI Tools:</strong> Using AI tools (ChatGPT, Copilot, Gemini, Claude, etc.) is permitted only as a development assistant. The final solution must be designed, implemented, and understood by the team.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">🛑</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Network Security:</strong> Accessing malicious, illegal, or inappropriate websites is prohibited. Participants must not attempt to hack, scan, or interfere with the event network or other teams' systems.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">💾</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Data Backup:</strong> Teams are responsible for regularly backing up their work. The organizers are not responsible for data loss due to network or system failures.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">👁️</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Monitoring:</strong> Organizers may monitor network usage to ensure fair access and security.</div>
                 </li>
-                <li style="align-items: flex-start;">
+                <li>
                     <span class="guide-icon">⚖️</span> 
                     <div style="font-size: 0.9rem; font-weight: 400;"><strong style="font-weight: 600; color: #E2E8F0;">Consequences:</strong> Any violation of the Internet Usage Policy may result in warning, suspension of internet access, or immediate disqualification, depending on the severity of the violation.</div>
                 </li>
