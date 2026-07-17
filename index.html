@@ -71,13 +71,12 @@
         /* --- Navigation --- */
         .glass-nav {
             position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; 
-            padding: 20px 5vw; background: rgba(5, 5, 5, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); 
+            padding: 15px 5vw; background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(12px); 
             border-bottom: 1px solid rgba(118, 146, 255, 0.1); z-index: 1000;
         }
-        .glass-nav .logo { font-size: 1.8rem; font-weight: 900; color: var(--icy-blue); text-transform: uppercase; text-shadow: 0 0 10px rgba(171, 210, 250, 0.5); }
-        .glass-nav ul { display: flex; list-style: none; gap: 30px; }
-        .glass-nav a { color: var(--icy-blue); text-decoration: none; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; transition: all 0.3s ease; }
-        .glass-nav a:hover { color: var(--cornflower-blue); text-shadow: 0 0 8px var(--cornflower-blue); }
+        .glass-nav .logo { font-size: 1.4rem; font-weight: 900; color: var(--icy-blue); text-transform: uppercase; }
+        .glass-nav ul { display: flex; list-style: none; gap: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .glass-nav a { color: var(--icy-blue); text-decoration: none; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; white-space: nowrap; }
 
         /* --- Buttons --- */
         .neon-btn {
@@ -95,7 +94,10 @@
         .hero-logo { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--icy-blue); box-shadow: 0 0 25px rgba(171, 210, 250, 0.3); margin-bottom: 25px; object-fit: contain; background-color: #ffffff; padding: 10px; animation: float 4s ease-in-out infinite; }
         .hero h1 { font-size: 6rem; font-weight: 900; line-height: 1.1; margin-bottom: 10px; text-transform: uppercase; }
         
-        .hero-subtitle { font-size: 1.5rem; color: var(--cornflower-blue); font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;}
+        .hero-subtitle { font-size: 1.5rem; color: var(--cornflower-blue); font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .registration-deadline { color: #ffd700; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        
         .hero-details { font-size: 1.1rem; color: #a0aec0; max-width: 700px; margin-bottom: 40px; font-weight: 600; line-height: 1.8;}
         .highlight-bar { background: rgba(27, 44, 193, 0.3); border: 1px solid var(--cornflower-blue); padding: 10px 20px; border-radius: 50px; display: inline-block; color: var(--icy-blue); font-weight: 800; margin-bottom: 40px;}
 
@@ -145,7 +147,6 @@
         .guide-list li { margin-bottom: 18px; display: flex; align-items: center; font-size: 1rem; font-weight: 600;}
         .guide-icon { font-size: 1.5rem; margin-right: 15px; background: rgba(27, 44, 193, 0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--dusk-blue); flex-shrink: 0;}
         
-        /* New dedicated policy grid to prevent mobile spill */
         .policy-grid {
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -179,18 +180,16 @@
            MOBILE OPTIMIZATION (PRO FIX)
            ========================================= */
         @media (max-width: 768px) {
-            /* 1. Sleeker Navigation */
             .glass-nav { flex-direction: column; padding: 15px 10px; gap: 10px; }
             .glass-nav ul { gap: 12px; flex-wrap: wrap; justify-content: center; }
             .glass-nav a { font-size: 0.8rem; }
             
-            /* 2. Hero Section Refinements */
             .hero { padding-top: 140px; }
             .hero-logo { width: 90px; height: 90px; margin-bottom: 15px; margin-top: 0; }
             .hero h1 { font-size: 2.2rem; } 
             .hero-subtitle { font-size: 0.9rem; }
+            .registration-deadline { font-size: 0.9rem; }
             
-            /* 3. Timer - Squeeze uniformly without breaking */
             .countdown-container { 
                 gap: 5px; 
                 flex-wrap: nowrap; 
@@ -205,25 +204,20 @@
             .time-value { font-size: 1.2rem; }
             .time-label { font-size: 0.55rem; }
 
-            /* 4. Highlight Bar - Stop horizontal bleed */
             .highlight-bar { padding: 10px; font-size: 0.75rem; width: 100%; max-width: 100%; box-sizing: border-box; margin-bottom: 30px; }
             
             section { padding: 60px 5vw; }
             .section-title { font-size: 1.8rem; margin-bottom: 40px; }
             
-            /* 5. FIX THE GRIDS - Force single column stacking */
             .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 20px; }
             
-            /* POLICY GRID MOBILE FIX - Stops horizontal spilling */
             .policy-grid { grid-template-columns: 1fr; }
             .guide-icon { font-size: 1.2rem; padding: 8px; margin-right: 10px; }
 
-            /* DOMAINS MOBILE FIX */
             .domain-card { flex-direction: column; text-align: center; gap: 10px; padding: 25px 15px;}
             .domain-icon { font-size: 2.5rem; margin-right: 0;}
             .domain-text { font-size: 1rem; }
 
-            /* EVAL TABLE FIX - Stop forced wide scrolling */
             .eval-table { min-width: 100%; }
             .eval-table th, .eval-table td { padding: 8px 5px; font-size: 0.85rem; }
 
@@ -231,9 +225,13 @@
             .timeline-item::before { left: -29px; }
             .map-container { height: 250px; }
             
-            /* Centers content cleanly */
             .glass-card, .team-member, .timeline-item { text-align: center; }
             .card-list { text-align: left; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.8rem; }
+            .glass-nav { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
@@ -256,6 +254,9 @@
         
         <h1>Brain<span class="animated-gradient-text"> Hack</span>'26</h1>
         <div class="hero-subtitle">The Next Era - Code to Autonomy</div>
+        
+        <!-- Registration Deadline Indicator -->
+        <div class="registration-deadline">🚨 Last Day to Register: July 25, 2026 🚨</div>
         
         <div id="countdown" class="countdown-container">
             <div class="time-box">
@@ -282,7 +283,9 @@
             Powered by Dept of CSE, College Of Engineering Adoor<br>
             Build, Break, and Innovate in Kerala's most intense coding marathon.
         </p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSctwFSz-u9MANksxIiIjd4sWm3qT7iKBrY-iIPGOXsJQ4I54g/viewform" target="_blank" class="neon-btn">Register Now</a>
+        
+        <!-- Added ID to the button to hide it later -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSctwFSz-u9MANksxIiIjd4sWm3qT7iKBrY-iIPGOXsJQ4I54g/viewform" target="_blank" id="register-btn" class="neon-btn">Register Now</a>
     </section>
 
     <section id="about">
@@ -330,6 +333,7 @@
                 <h3 style="color: var(--cornflower-blue); margin-bottom: 10px;">Registration</h3>
                 <p>
                     <strong>Team Registration:</strong> ₹750 per individual<br>
+                    <span style="font-size: 0.85rem; color: #ffd700; font-weight: 600;">Last Date: July 25, 2026</span><br>
                     <span style="font-size: 0.8rem; color: var(--dusk-blue);">(Max 100 participants)</span>
                 </p>
             </div>
@@ -422,7 +426,7 @@
                 <ul class="guide-list" style="display: inline-block; text-align: left;">
                     <li><span class="guide-icon">👥</span> Team Size: 2 – 4 members</li>
                     <li><span class="guide-icon">💻</span> Tech Stack: Any AI/ML, IoT platforms</li>
-                    <li><span class="guide-icon">💼</span> Bring your own laptop and accessories</li>
+                    <li><span class="guide-icon">🛠️</span> Bring your own laptop, hardware components, and accessories</li>
                     <li><span class="guide-icon">🤝</span> Respect time, ideas and ensure fair play</li>
                     <li><span class="guide-icon">⚖️</span> Decision of judges will be final</li>
                 </ul>
@@ -649,8 +653,8 @@
             "retina_detect": true
         });
 
-        // 2. Live Countdown Timer Logic
-        const hackathonDate = new Date("August 2, 2026 08:00:00").getTime();
+        // 2. Live Countdown Timer Logic - Updated to July 25, 2026 Registration Deadline
+        const hackathonDate = new Date("July 25, 2026 23:59:59").getTime();
 
         const timer = setInterval(function() {
             const now = new Date().getTime();
@@ -668,7 +672,12 @@
 
             if (distance < 0) {
                 clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<h2 style='color: var(--icy-blue); text-transform: uppercase; letter-spacing: 2px;'>The Hacking Has Begun!</h2>";
+                
+                // Show "Registrations Closed!" text
+                document.getElementById("countdown").innerHTML = "<h2 style='color: #ff7676; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 118, 118, 0.5);'>Registrations Closed!</h2>";
+                
+                // Completely hide the "Register Now" button
+                document.getElementById("register-btn").style.display = "none";
             }
         }, 1000);
     </script>
