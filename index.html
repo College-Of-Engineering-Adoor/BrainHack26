@@ -92,7 +92,18 @@
         .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(27, 44, 193, 0.3) 0%, rgba(5, 5, 5, 0) 70%); z-index: -1; animation: float 6s ease-in-out infinite; }
         
         .hero-logo { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--icy-blue); box-shadow: 0 0 25px rgba(171, 210, 250, 0.3); margin-bottom: 25px; object-fit: contain; background-color: #ffffff; padding: 10px; animation: float 4s ease-in-out infinite; }
-        .hero h1 { font-size: 6rem; font-weight: 900; line-height: 1.1; margin-bottom: 10px; text-transform: uppercase; }
+        .hero h1 { font-size: 6rem; font-weight: 900; line-height: 1.1; margin-bottom: 0px; text-transform: uppercase; }
+        
+        /* NEW: Massive Date Element */
+        .massive-date { 
+            font-size: 3.5rem; 
+            color: var(--icy-blue); 
+            text-transform: uppercase; 
+            letter-spacing: 4px; 
+            margin-bottom: 10px; 
+            font-family: 'Big Macca', sans-serif; 
+            text-shadow: 0 0 20px rgba(118, 146, 255, 0.4); 
+        }
         
         .hero-subtitle { font-size: 1.5rem; color: var(--cornflower-blue); font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;}
         
@@ -187,6 +198,10 @@
             .hero { padding-top: 140px; }
             .hero-logo { width: 90px; height: 90px; margin-bottom: 15px; margin-top: 0; }
             .hero h1 { font-size: 2.2rem; } 
+            
+            /* Mobile adjustment for massive date */
+            .massive-date { font-size: 2rem; }
+            
             .hero-subtitle { font-size: 0.9rem; }
             .registration-deadline { font-size: 0.9rem; }
             
@@ -231,6 +246,7 @@
 
         @media (max-width: 480px) {
             .hero h1 { font-size: 2.8rem; }
+            .massive-date { font-size: 1.8rem; }
             .glass-nav { flex-direction: column; gap: 10px; }
         }
     </style>
@@ -253,6 +269,10 @@
         <img src="brand.png" alt="Brain Hack'26 Logo" class="hero-logo">
         
         <h1>Brain<span class="animated-gradient-text"> Hack</span>'26</h1>
+        
+        <!-- NEW: Massive Block Letter Date -->
+        <h2 class="massive-date">August 2nd</h2>
+        
         <div class="hero-subtitle">The Next Era - Code to Autonomy</div>
         
         <!-- Registration Deadline Indicator -->
@@ -277,7 +297,7 @@
             </div>
         </div>
 
-        <div class="highlight-bar">📅 August 2, 2026 &nbsp;|&nbsp; ⏱️ 12-Hour Sprint &nbsp;|&nbsp; 🏆 Prize Pool: ₹25,000</div>
+        <div class="highlight-bar">⏱️ 12-Hour Sprint &nbsp;|&nbsp; 🏆 Prize Pool: ₹25,000</div>
 
         <p class="hero-details">
             Powered by Dept of CSE, College Of Engineering Adoor<br>
