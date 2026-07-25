@@ -99,10 +99,15 @@
         
         .massive-date { font-size: 3.5rem; color: var(--icy-blue); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; font-family: 'Big Macca', sans-serif; text-shadow: 0 0 20px rgba(118, 146, 255, 0.4); }
         .hero-subtitle { font-size: 1.5rem; color: var(--cornflower-blue); font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;}
-        .registration-deadline { color: #ffd700; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+        
+        /* Closure Poster Image */
+        .closure-poster { width: 100%; max-width: 600px; border-radius: 12px; margin: 10px 0 30px 0; border: 1px solid var(--card-border); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+
+        .registration-deadline { color: #ff7676; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; text-shadow: 0 0 10px rgba(255, 118, 118, 0.3); }
         .hero-details { font-size: 1.1rem; color: #a0aec0; max-width: 700px; margin-bottom: 40px; font-weight: 600; line-height: 1.8;}
         .highlight-bar { background: rgba(27, 44, 193, 0.2); border: 1px solid var(--cornflower-blue); padding: 10px 20px; border-radius: 50px; display: inline-block; color: var(--icy-blue); font-weight: 800; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 1px;}
 
+        .countdown-title { color: var(--icy-blue); font-size: 1rem; text-transform: uppercase; font-weight: 800; letter-spacing: 2px; margin-bottom: 15px; }
         .countdown-container { display: flex; gap: 20px; margin-bottom: 30px; z-index: 2; }
         .time-box { background: var(--card-bg-top); border: 1px solid var(--cornflower-blue); padding: 15px 25px; border-radius: 10px; display: flex; flex-direction: column; min-width: 100px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
         .time-value { font-size: 2.5rem; font-weight: 900; color: var(--icy-blue); }
@@ -230,7 +235,9 @@
             .massive-date { font-size: 2rem; }
             
             .hero-subtitle { font-size: 0.9rem; }
-            .registration-deadline { font-size: 0.9rem; }
+            .registration-deadline { font-size: 0.85rem; }
+            
+            .closure-poster { width: 90%; }
             
             .countdown-container { 
                 gap: 5px; 
@@ -298,8 +305,12 @@
         
         <div class="hero-subtitle">The Next Era - Code to Autonomy</div>
         
-        <div class="registration-deadline">LAST DAY TO REGISTER: JULY 25, 2026</div>
+        <!-- Official Closure Poster -->
+        <img src="closed.jpeg" alt="Registrations Closed Poster" class="closure-poster">
         
+        <div class="registration-deadline">REGISTRATIONS OFFICIALLY CLOSED - NO MORE PARTICIPANTS WILL BE TAKEN</div>
+        
+        <div class="countdown-title">HACKATHON KICKOFF IN:</div>
         <div id="countdown" class="countdown-container">
             <div class="time-box">
                 <span id="days" class="time-value">00</span>
@@ -326,7 +337,8 @@
             Build, Break, and Innovate in Kerala's most intense coding marathon.
         </p>
         
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSctwFSz-u9MANksxIiIjd4sWm3qT7iKBrY-iIPGOXsJQ4I54g/viewform" target="_blank" id="register-btn" class="neon-btn">Register Now</a>
+        <!-- Disabled Registration Button -->
+        <a href="javascript:void(0)" id="register-btn" class="neon-btn" style="pointer-events: none; border-color: #ff7676; color: #ff7676; box-shadow: 0 0 15px rgba(255, 118, 118, 0.1); background: rgba(255, 118, 118, 0.05);">Registration Closed - Capacity Reached</a>
     </section>
 
     <section id="about">
@@ -373,9 +385,8 @@
                 <h3 style="color: var(--cornflower-blue); margin-bottom: 15px; font-size: 1.8rem;">Registration</h3>
                 <p>
                     <strong>Team Registration:</strong> ₹750 per individual<br>
-                    <span style="font-size: 0.85rem; color: #ffd700; font-weight: 600; display: block; margin-top: 5px;">Last Date: July 25, 2026</span>
-                    <span style="font-size: 0.8rem; color: var(--dusk-blue);">(Max 100 participants)</span><br>
-                    <span style="font-size: 0.85rem; color: #ff7676; display: block; margin-top: 10px; font-weight: 600;">Strictly No Refunds (Team reassignments allowed)</span>
+                    <span style="font-size: 0.85rem; color: #ff7676; font-weight: 600; display: block; margin-top: 10px;">STATUS: REGISTRATIONS CLOSED (100/100 Participants Filled)</span>
+                    <span style="font-size: 0.85rem; color: var(--dusk-blue); display: block; margin-top: 5px; font-weight: 600;">Strictly No Refunds (Team reassignments allowed)</span>
                 </p>
             </div>
             <div class="glass-card">
@@ -646,7 +657,7 @@
 
     <script>
         console.log("%c[SYS] Brain Hack'26 SYSTEM ACCESSED", "color: #7692FF; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #7692FF;");
-        console.log("%cAre you inspecting our code? Good. We like that. Register your team and show us what you can build.", "color: #ABD2FA; font-size: 14px;");
+        console.log("%cRegistration is currently full. See you at the hackathon.", "color: #ff7676; font-size: 14px;");
         
         // 1. Initialize Particle Network Background
         particlesJS("particles-js", {
@@ -688,8 +699,8 @@
             "retina_detect": true
         });
 
-        // 2. Live Countdown Timer Logic - Updated back to July 25, 2026 Registration Deadline
-        const hackathonDate = new Date("July 25, 2026 23:59:59").getTime();
+        // 2. Live Countdown Timer Logic - Repurposed to count down to Hackathon Start (August 2, 2026, 07:00 AM)
+        const hackathonDate = new Date("August 2, 2026 07:00:00").getTime();
 
         const timer = setInterval(function() {
             const now = new Date().getTime();
@@ -708,11 +719,9 @@
             if (distance < 0) {
                 clearInterval(timer);
                 
-                // Show "Registrations Closed!" text
-                document.getElementById("countdown").innerHTML = "<h2 style='color: #ff7676; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255, 118, 118, 0.5);'>Registrations Closed!</h2>";
-                
-                // Completely hide the "Register Now" button
-                document.getElementById("register-btn").style.display = "none";
+                // Show "The Hackathon Has Begun!" text when the timer finishes
+                document.getElementById("countdown").innerHTML = "<h2 style='color: var(--icy-blue); text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(171, 210, 250, 0.5);'>The Hackathon Has Begun!</h2>";
+                document.querySelector('.countdown-title').style.display = "none";
             }
         }, 1000);
     </script>
