@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Hub | Brain Hack'26</title>
+    
+    <!-- External Libraries for QR Scanner and Generator -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <style>
         /* 1. Load Montserrat for small, readable paragraph text */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap');
@@ -26,6 +31,8 @@
             --card-bg-bottom: #060913;
             --card-border: #1c253c;
             --text-main: #E2E8F0;
+            --success-green: #00e676;
+            --warning-red: #ff4d4d;
         }
 
         /* --- Custom Scrollbar --- */
@@ -117,7 +124,7 @@
             text-transform: uppercase;
         }
         
-        input {
+        input[type="password"] {
             width: 100%;
             padding: 15px;
             margin: 20px 0;
@@ -132,10 +139,12 @@
             transition: border-color 0.3s;
         }
 
-        input:focus {
+        input[type="password"]:focus {
             border-color: var(--cornflower-blue);
             box-shadow: 0 0 10px rgba(118, 146, 255, 0.1);
         }
+
+        input[type="file"] { display: none; }
 
         /* Buttons */
         .login-btn {
@@ -156,7 +165,7 @@
             box-shadow: 0 5px 15px rgba(118, 146, 255, 0.3);
         }
 
-        #dashboard { display: none; }
+        #dashboard, #scanner-section, #generator-section { display: none; }
 
         .btn-grid {
             display: grid;
@@ -178,6 +187,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             text-align: center;
+            cursor: pointer;
         }
 
         .btn-primary {
@@ -203,6 +213,43 @@
             color: #ffffff;
             background: rgba(118, 146, 255, 0.05);
         }
+
+        .btn-success-action {
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid var(--success-green);
+            color: var(--success-green);
+        }
+        .btn-success-action:hover {
+            background: var(--success-green);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+        }
+
+        /* --- Scanner UI Specifics --- */
+        #reader { width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 20px; border: 2px solid var(--card-border); display: none; background: #000; }
+        
+        .dossier { display: none; text-align: left; margin-top: 20px; }
+        .verified-banner {
+            background: rgba(0, 230, 118, 0.15); border: 2px solid var(--success-green);
+            color: var(--success-green); padding: 20px; border-radius: 8px; text-align: center;
+            font-weight: 900; font-size: 2rem; margin-bottom: 25px; text-transform: uppercase;
+        }
+        .verified-banner.denied { background: rgba(255, 77, 77, 0.15); border-color: var(--warning-red); color: var(--warning-red); }
+
+        .details-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .detail-item { background: #060913; border: 1px solid var(--card-border); padding: 15px; border-radius: 8px; }
+        .detail-label { font-size: 0.75rem; color: #a0aec0; text-transform: uppercase; font-weight: 800; margin-bottom: 5px; letter-spacing: 1px; }
+        .detail-value { font-size: 1.1rem; font-weight: 600; color: var(--text-main); word-break: break-word; }
+        .drive-iframe { width: 100%; height: 300px; border-radius: 8px; margin-top: 10px; border: 1px solid var(--card-border); background: #000; }
+
+        /* --- Generator UI Specifics --- */
+        #qr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .qr-card { background: #ffffff; padding: 20px; border-radius: 8px; text-align: center; color: #000; border: 4px solid var(--card-bg-bottom); }
+        .qr-image { display: flex; justify-content: center; margin-bottom: 10px; }
+        .qr-id { font-weight: 900; font-size: 0.8rem; letter-spacing: 1px; word-break: break-all; color: var(--cornflower-blue); margin-top: 5px; }
+        .qr-team { font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
+
+        .back-link { display: inline-block; margin-top: 30px; color: var(--cornflower-blue); cursor: pointer; text-decoration: underline; font-weight: 600; }
 
         /* Upgraded Communication Templates */
         .comms-section {
@@ -289,6 +336,16 @@
                 font-size: 2rem;
             }
         }
+
+        /* --- Print Styles for Generator --- */
+        @media print {
+            body { background: white; padding: 0; }
+            .admin-container { border: none; box-shadow: none; background: transparent; margin: 0; padding: 0; max-width: 100%; }
+            #particles-js, #login-section, #dashboard, #scanner-section, h2, p, .action-btn, .back-link { display: none !important; }
+            #generator-section { display: block !important; }
+            #qr-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; }
+            .qr-card { border: 1px dashed #ccc; page-break-inside: avoid; width: 220px; }
+        }
     </style>
 </head>
 <body>
@@ -296,19 +353,30 @@
     <div id="particles-js"></div>
 
     <div class="admin-container">
+        
+        <!-- LOGIN SECTION -->
         <div id="login-section">
             <h2>Admin <span class="animated-gradient-text">Gateway</span></h2>
             <p style="color: #a0aec0; margin-bottom: 20px;">Secure Access for Brain Hack'26 Organizers</p>
             <input type="password" id="password" placeholder="Enter Access Code">
             <button class="login-btn" onclick="checkPassword()">Authenticate</button>
-            <p id="error-msg" style="color: #ff4d4d; display: none; margin-top: 15px; font-weight: 600;">Access Denied. Incorrect Password.</p>
+            <p id="error-msg" style="color: var(--warning-red); display: none; margin-top: 15px; font-weight: 600;">Access Denied. Incorrect Password.</p>
         </div>
 
+        <!-- DASHBOARD -->
         <div id="dashboard">
             <h2>Control <span class="animated-gradient-text">Hub</span></h2>
-            <p style="color: #a0aec0; margin-bottom: 30px;">Manage registrations seamlessly through Google Workspace.</p>
+            <p style="color: #a0aec0; margin-bottom: 30px;">Manage registrations seamlessly through Google Workspace & Entry Verification.</p>
             
             <div class="btn-grid">
+                <a onclick="showSection('scanner-section')" class="action-btn btn-success-action">
+                    [O] Launch Entry Scanner
+                </a>
+
+                <a onclick="showSection('generator-section')" class="action-btn btn-primary">
+                    Generate QR Passes
+                </a>
+
                 <a href="https://docs.google.com/forms/d/1DCpE9yGZCyLAc075T-eNswmRXfI548N_jY9el5Q7K1w/edit#responses" target="_blank" class="action-btn btn-primary">
                     Live Form Responses
                 </a>
@@ -326,6 +394,7 @@
                 </a>
             </div>
 
+            <!-- QUICK-COPY EMAIL TEMPLATES -->
             <div class="comms-section">
                 <h3>Quick-Copy Email Templates</h3>
                 
@@ -393,7 +462,59 @@ Brain Hack'26 Organizing Team</p>
                 </div>
             </div>
 
+            <div style="margin-top: 30px;">
+                <a href="#" onclick="location.reload()" style="color: var(--warning-red); font-size: 0.9rem; text-decoration: none;">Log Out / Lock Terminal</a>
+            </div>
         </div>
+
+        <!-- SCANNER UI SECTION -->
+        <div id="scanner-section">
+            <h2 id="scanner-title">Helpdesk <span class="animated-gradient-text">Scanner</span></h2>
+            
+            <div id="scanner-setup">
+                <p style="color: #a0aec0; margin-bottom: 20px; font-size: 0.9rem;">Load the master CSV file to begin check-in validation.</p>
+                <label for="scanner-csv-upload" class="login-btn" style="display: block; text-align: center; font-size: 1rem; margin-bottom: 10px; cursor: pointer;">1. Load Master CSV</label>
+                <input type="file" id="scanner-csv-upload" accept=".csv">
+                <div id="scanner-db-status" style="color: var(--success-green); margin-top: 10px; display: none; font-weight: bold;">Database Loaded Successfully</div>
+                <button class="login-btn" id="scanner-start-btn" style="margin-top: 20px; display: none; background: var(--success-green); color: var(--bg-dark);" onclick="startScanner()">2. Initialize Scanner</button>
+            </div>
+
+            <div id="scanner-active" style="display: none;">
+                <p style="color: #a0aec0; margin-bottom: 20px; font-weight: bold;" id="scan-count">Teams Checked In: 0</p>
+                <div id="reader"></div>
+
+                <div class="dossier" id="dossier-view">
+                    <div id="status-banner" class="verified-banner">✅ VERIFIED</div>
+                    <div class="details-grid" id="details-container"></div>
+                    <button class="login-btn" style="margin-top: 25px; background: var(--success-green); color: var(--bg-dark);" id="confirm-btn" onclick="markCheckedIn()">Confirm & Admit</button>
+                    <button class="login-btn" style="margin-top: 10px; background: transparent; border: 1px solid var(--card-border); color: #a0aec0;" onclick="resumeScanner()">Cancel / Scan Another</button>
+                </div>
+
+                <button class="login-btn" style="margin-top: 30px; border: 1px solid var(--cornflower-blue); color: var(--cornflower-blue); background: transparent;" onclick="downloadUpdatedCSV()">Export Final CSV</button>
+            </div>
+
+            <a class="back-link" onclick="closeScannerAndReturn()">Return to Dashboard</a>
+        </div>
+
+        <!-- GENERATOR UI SECTION -->
+        <div id="generator-section">
+            <h2>QR <span class="animated-gradient-text">Generator</span></h2>
+            <p style="color: #a0aec0; margin-bottom: 20px; font-size: 0.9rem;">Generate entry passes directly from payment proofs.</p>
+
+            <div id="generator-setup">
+                <label for="gen-csv-upload" class="login-btn" style="display: block; text-align: center; font-size: 1rem; cursor: pointer;">1. Load CSV & Extract QRs</label>
+                <input type="file" id="gen-csv-upload" accept=".csv">
+            </div>
+
+            <div id="generator-print-ui" style="display: none; margin-top: 20px;">
+                <button class="login-btn" style="background: var(--success-green); color: var(--bg-dark);" onclick="window.print()">2. Print / Save to PDF</button>
+            </div>
+
+            <div id="qr-grid"></div>
+
+            <a class="back-link" onclick="showSection('dashboard')">Return to Dashboard</a>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -437,8 +558,7 @@ Brain Hack'26 Organizing Team</p>
             const hashedInput = await hashPassword(passInput);
 
             if (hashedInput === expectedHash) {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
+                showSection('dashboard');
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
@@ -450,6 +570,14 @@ Brain Hack'26 Organizing Team</p>
                 checkPassword();
             }
         });
+
+        function showSection(sectionId) {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('scanner-section').style.display = 'none';
+            document.getElementById('generator-section').style.display = 'none';
+            document.getElementById(sectionId).style.display = 'block';
+        }
 
         // --- 3. Copy to Clipboard Function ---
         function copyText(elementId, btnElement) {
@@ -465,6 +593,228 @@ Brain Hack'26 Organizing Team</p>
                 }, 2000);
             });
         }
+
+        // --- 4. Utilities for Drive links ---
+        function extractDriveId(url) {
+            if (!url) return null;
+            const match = url.match(/id=([^&]+)/) || url.match(/d\/([a-zA-Z0-9_-]+)/);
+            return match ? match[1] : null;
+        }
+
+        function getDriveIframeUrl(url) {
+            const id = extractDriveId(url);
+            return id ? `https://drive.google.com/file/d/${id}/preview` : null;
+        }
+
+        // --- 5. Scanner Logic ---
+        let scannerDatabase = [];
+        let scannerHeaders = [];
+        let checkedInCount = 0;
+        let html5QrcodeScanner;
+        let currentScannedTeam = null;
+
+        const allowedFields = ["college", "department", "email:", "phone number:", "payment proof", "id proof (1)", "number of members:"];
+
+        document.getElementById('scanner-csv-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const text = event.target.result;
+                const rows = text.split('\n').map(row => {
+                    const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+                    return row.split(regex).map(cell => cell.replace(/^"|"$/g, '').trim());
+                });
+                
+                scannerHeaders = rows[0];
+                if (!scannerHeaders.includes("Check-In Status")) scannerHeaders.push("Check-In Status");
+                
+                if (!scannerHeaders.includes("Payment Proof")) {
+                    alert("Critical Error: The uploaded CSV does not have a column named 'Payment Proof'.");
+                    return;
+                }
+
+                scannerDatabase = [];
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i].length > 1) {
+                        let obj = {};
+                        for (let j = 0; j < scannerHeaders.length; j++) {
+                            obj[scannerHeaders[j]] = rows[i][j] || "";
+                        }
+                        scannerDatabase.push(obj);
+                    }
+                }
+                
+                document.getElementById('scanner-db-status').style.display = 'block';
+                document.getElementById('scanner-start-btn').style.display = 'block';
+            };
+            reader.readAsText(file);
+        });
+
+        function startScanner() {
+            document.getElementById('scanner-setup').style.display = 'none';
+            document.getElementById('scanner-active').style.display = 'block';
+            document.getElementById('reader').style.display = 'block';
+
+            html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: {width: 250, height: 250} }, false);
+            html5QrcodeScanner.render(onScanSuccess);
+        }
+
+        function closeScannerAndReturn() {
+            if(html5QrcodeScanner) html5QrcodeScanner.clear();
+            showSection('dashboard');
+        }
+
+        function onScanSuccess(decodedText) {
+            html5QrcodeScanner.pause();
+            document.getElementById('reader').style.display = 'none';
+            document.getElementById('scanner-title').innerText = "Processing...";
+            
+            currentScannedTeam = scannerDatabase.find(row => {
+                const proofUrl = row["Payment Proof"] || "";
+                return proofUrl.includes(decodedText);
+            });
+
+            const dossier = document.getElementById('dossier-view');
+            const banner = document.getElementById('status-banner');
+            const detailsContainer = document.getElementById('details-container');
+            const confirmBtn = document.getElementById('confirm-btn');
+            
+            detailsContainer.innerHTML = '';
+            dossier.style.display = 'block';
+
+            if (!currentScannedTeam) {
+                banner.className = 'verified-banner denied';
+                banner.innerHTML = `❌ INVALID QR<br><span style="font-size: 1rem;">Payment ID Not Found</span>`;
+                confirmBtn.style.display = 'none';
+            } else if (currentScannedTeam["Check-In Status"] === "TRUE" || currentScannedTeam["Check-In Status"] === "Checked In") {
+                banner.className = 'verified-banner denied';
+                banner.innerHTML = `⚠️ ALREADY ADMITTED<br><span style="font-size: 1rem;">Payment ID already verified.</span>`;
+                confirmBtn.style.display = 'none';
+                buildDossierUI();
+            } else {
+                banner.className = 'verified-banner';
+                banner.innerHTML = `✅ VERIFIED<br><span style="font-size: 1rem;">PAYMENT AUTHENTICATED</span>`;
+                confirmBtn.style.display = 'block';
+                buildDossierUI();
+            }
+        }
+
+        function buildDossierUI() {
+            const container = document.getElementById('details-container');
+            
+            for (let key in currentScannedTeam) {
+                if (!allowedFields.includes(key.toLowerCase().trim())) continue; 
+                
+                let val = currentScannedTeam[key];
+                if (!val) continue; 
+
+                let itemHTML = `<div class="detail-item"><div class="detail-label">${key}</div>`;
+                
+                if (val.includes("drive.google.com")) {
+                    let urls = val.split(','); 
+                    urls.forEach(u => {
+                        let iframeUrl = getDriveIframeUrl(u.trim());
+                        if (iframeUrl) {
+                            itemHTML += `<iframe src="${iframeUrl}" class="drive-iframe" allow="autoplay"></iframe>`;
+                        } else {
+                            itemHTML += `<div class="detail-value"><a href="${u}" target="_blank" style="color: var(--icy-blue);">View File</a></div>`;
+                        }
+                    });
+                } else {
+                    itemHTML += `<div class="detail-value">${val}</div>`;
+                }
+                
+                itemHTML += `</div>`;
+                container.innerHTML += itemHTML;
+            }
+        }
+
+        function markCheckedIn() {
+            if (currentScannedTeam) {
+                currentScannedTeam["Check-In Status"] = "Checked In";
+                checkedInCount++;
+                document.getElementById('scan-count').innerText = `Teams Checked In: ${checkedInCount}`;
+                resumeScanner();
+            }
+        }
+
+        function resumeScanner() {
+            document.getElementById('dossier-view').style.display = 'none';
+            document.getElementById('reader').style.display = 'block';
+            document.getElementById('scanner-title').innerText = "Helpdesk Scanner";
+            html5QrcodeScanner.resume();
+        }
+
+        function downloadUpdatedCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += scannerHeaders.map(h => `"${h}"`).join(",") + "\r\n";
+            
+            scannerDatabase.forEach(rowObject => {
+                let row = scannerHeaders.map(header => {
+                    let cellData = rowObject[header] || "";
+                    return `"${cellData.toString().replace(/"/g, '""')}"`;
+                });
+                csvContent += row.join(",") + "\r\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "BrainHack26_Final_Entry_Log.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- 6. Generator Logic ---
+        document.getElementById('gen-csv-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                const text = event.target.result;
+                const rows = text.split('\n').map(row => {
+                    const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+                    return row.split(regex).map(cell => cell.replace(/^"|"$/g, '').trim());
+                });
+                
+                const headers = rows[0];
+                const paymentIndex = headers.indexOf("Payment Proof");
+                const teamNameIndex = headers.indexOf("Team Name");
+                
+                if (paymentIndex === -1) {
+                    alert("Error: Could not find a column named 'Payment Proof'.");
+                    return;
+                }
+                
+                const grid = document.getElementById('qr-grid');
+                grid.innerHTML = '';
+
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i].length > 1 && rows[i][paymentIndex]) {
+                        let firstUrl = rows[i][paymentIndex].split(',')[0];
+                        let driveId = extractDriveId(firstUrl);
+                        let teamName = teamNameIndex !== -1 ? rows[i][teamNameIndex] : `Team ${i}`;
+
+                        if (driveId) {
+                            let card = document.createElement('div');
+                            card.className = 'qr-card';
+                            card.innerHTML = `<div class="qr-team">${teamName}</div><div class="qr-image" id="qr-${driveId}"></div><div class="qr-id">${driveId}</div>`;
+                            grid.appendChild(card);
+
+                            new QRCode(document.getElementById(`qr-${driveId}`), {
+                                text: driveId,
+                                width: 150, height: 150, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H
+                            });
+                        }
+                    }
+                }
+                document.getElementById('generator-setup').style.display = 'none';
+                document.getElementById('generator-print-ui').style.display = 'block';
+            };
+            reader.readAsText(file);
+        });
     </script>
 
 </body>
