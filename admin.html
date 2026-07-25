@@ -22,6 +22,9 @@
             --dusk-blue: #3D518C;
             --deep-navy: #091540;
             --bg-dark: #050505;
+            --card-bg-top: #0d1322;
+            --card-bg-bottom: #060913;
+            --card-border: #1c253c;
             --text-main: #E2E8F0;
         }
 
@@ -44,7 +47,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif; /* Default to clean font */
+            font-family: 'Montserrat', sans-serif;
         }
 
         /* ONLY apply Big Macca to Admin Titles and the Login Button */
@@ -94,18 +97,16 @@
             to { background-position: 300% center; }
         }
 
-        /* Main Container (Glassmorphism) */
+        /* Main Container (Professional Dark Mode) */
         .admin-container {
-            background: rgba(9, 21, 64, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: linear-gradient(180deg, var(--card-bg-top) 0%, var(--card-bg-bottom) 100%);
             padding: 50px;
-            border-radius: 15px;
-            border: 1px solid rgba(118, 146, 255, 0.2);
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
             text-align: center;
             width: 100%;
             max-width: 800px;
-            box-shadow: 0 15px 35px rgba(27, 44, 193, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             position: relative;
             z-index: 1;
         }
@@ -120,11 +121,11 @@
             width: 100%;
             padding: 15px;
             margin: 20px 0;
-            border: 1px solid var(--cornflower-blue);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
-            background: rgba(5, 5, 5, 0.8);
+            background: #060913;
             color: white;
-            font-family: 'Montserrat', sans-serif; /* Set strictly to Montserrat */
+            font-family: 'Montserrat', sans-serif;
             font-weight: 600;
             font-size: 1rem;
             outline: none;
@@ -132,8 +133,8 @@
         }
 
         input:focus {
-            border-color: var(--icy-blue);
-            box-shadow: 0 0 10px rgba(171, 210, 250, 0.2);
+            border-color: var(--cornflower-blue);
+            box-shadow: 0 0 10px rgba(118, 146, 255, 0.1);
         }
 
         /* Buttons */
@@ -152,12 +153,11 @@
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(118, 146, 255, 0.4);
+            box-shadow: 0 5px 15px rgba(118, 146, 255, 0.3);
         }
 
         #dashboard { display: none; }
 
-        /* Updated Grid for 4 Buttons */
         .btn-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -181,15 +181,15 @@
         }
 
         .btn-primary {
-            background: rgba(27, 44, 193, 0.2);
-            border: 2px solid var(--cornflower-blue);
+            background: rgba(118, 146, 255, 0.1);
+            border: 1px solid var(--cornflower-blue);
             color: var(--icy-blue);
         }
 
         .btn-primary:hover {
             background: var(--cornflower-blue);
             color: var(--bg-dark);
-            box-shadow: 0 0 20px var(--cornflower-blue);
+            box-shadow: 0 0 20px rgba(118, 146, 255, 0.2);
         }
 
         .btn-secondary {
@@ -201,13 +201,13 @@
         .btn-secondary:hover {
             border-color: var(--icy-blue);
             color: #ffffff;
-            background: rgba(118, 146, 255, 0.1);
+            background: rgba(118, 146, 255, 0.05);
         }
 
         /* Upgraded Communication Templates */
         .comms-section {
             text-align: left;
-            border-top: 1px solid var(--persian-blue);
+            border-top: 1px solid var(--card-border);
             padding-top: 30px;
             margin-top: 30px;
         }
@@ -225,8 +225,8 @@
         }
 
         .template-card {
-            background: rgba(5, 5, 5, 0.5);
-            border: 1px solid var(--dusk-blue);
+            background: #060913;
+            border: 1px solid var(--card-border);
             padding: 20px;
             border-radius: 8px;
             position: relative;
@@ -245,15 +245,15 @@
             align-items: center;
         }
 
-        /* This ensures line breaks format correctly when copied to an email */
         .template-card p {
             font-size: 0.85rem;
             color: #e2e8f0;
             margin-bottom: 15px;
             white-space: pre-wrap; 
-            background: rgba(0, 0, 0, 0.3);
+            background: #0d1322;
             padding: 15px;
             border-radius: 5px;
+            border: 1px solid var(--card-border);
             border-left: 3px solid var(--persian-blue);
             line-height: 1.5;
         }
@@ -280,7 +280,7 @@
         /* Mobile Optimization */
         @media (max-width: 768px) {
             .btn-grid {
-                grid-template-columns: 1fr; /* Stacks buttons on mobile */
+                grid-template-columns: 1fr;
             }
             .admin-container {
                 padding: 30px 20px;
@@ -335,7 +335,7 @@
                         <h4 style="color: var(--icy-blue);">1. Payment Verified (Confirmation) 
                             <button class="copy-btn" onclick="copyText('msg-success', this)">Copy</button>
                         </h4>
-                        <p id="msg-success">Subject: Brain Hack'26 Registration Confirmed! 🚀
+                        <p id="msg-success">Subject: Brain Hack'26 Registration Confirmed!
 
 Hello Team,
 
@@ -350,25 +350,7 @@ Brain Hack'26 Organizing Team</p>
                     </div>
 
                     <div class="template-card">
-                        <h4 style="color: #ff7676;">2. Payment Issue (Invalid UTR)
-                            <button class="copy-btn" onclick="copyText('msg-issue', this)">Copy</button>
-                        </h4>
-                        <p id="msg-issue">Subject: Action Required: Brain Hack'26 Registration
-
-Hello Team,
-
-We are currently reviewing your Brain Hack'26 registration. However, we were unable to verify your UPI payment using the UTR/Transaction number provided in the form.
-
-To secure your spot in the hackathon, please reply directly to this email with a clear screenshot of your successful transaction within the next 24 hours.
-
-If you have any questions, feel free to reach out. 
-
-Regards,
-Brain Hack'26 Organizing Team</p>
-                    </div>
-
-                    <div class="template-card">
-                        <h4 style="color: var(--cornflower-blue);">3. Day-Of Logistics Reminder
+                        <h4 style="color: var(--cornflower-blue);">2. Day-Of Logistics Reminder
                             <button class="copy-btn" onclick="copyText('msg-reminder', this)">Copy</button>
                         </h4>
                         <p id="msg-reminder">Subject: Brain Hack'26: Important Day-Of Instructions
@@ -389,7 +371,7 @@ Brain Hack'26 Organizing Team</p>
                     </div>
 
                     <div class="template-card">
-                        <h4 style="color: #ffb84d;">4. Policy Violation Warning
+                        <h4 style="color: #ffb84d;">3. Policy Violation Warning
                             <button class="copy-btn" onclick="copyText('msg-violation', this)">Copy</button>
                         </h4>
                         <p id="msg-violation">Subject: Urgent: Brain Hack'26 Policy Violation
