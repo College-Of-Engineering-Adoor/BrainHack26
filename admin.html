@@ -370,7 +370,7 @@
             
             <div class="btn-grid">
                 <a onclick="showSection('scanner-section')" class="action-btn btn-success-action">
-                    [O] Launch Entry Scanner
+                    Launch Entry Scanner
                 </a>
 
                 <a onclick="showSection('generator-section')" class="action-btn btn-primary">
@@ -484,7 +484,7 @@ Brain Hack'26 Organizing Team</p>
                 <div id="reader"></div>
 
                 <div class="dossier" id="dossier-view">
-                    <div id="status-banner" class="verified-banner">✅ VERIFIED</div>
+                    <div id="status-banner" class="verified-banner">VERIFIED</div>
                     <div class="details-grid" id="details-container"></div>
                     <button class="login-btn" style="margin-top: 25px; background: var(--success-green); color: var(--bg-dark);" id="confirm-btn" onclick="markCheckedIn()">Confirm & Admit</button>
                     <button class="login-btn" style="margin-top: 10px; background: transparent; border: 1px solid var(--card-border); color: #a0aec0;" onclick="resumeScanner()">Cancel / Scan Another</button>
@@ -685,16 +685,16 @@ Brain Hack'26 Organizing Team</p>
 
             if (!currentScannedTeam) {
                 banner.className = 'verified-banner denied';
-                banner.innerHTML = `❌ INVALID QR<br><span style="font-size: 1rem;">Payment ID Not Found</span>`;
+                banner.innerHTML = `INVALID QR<br><span style="font-size: 1rem;">Payment ID Not Found</span>`;
                 confirmBtn.style.display = 'none';
             } else if (currentScannedTeam["Check-In Status"] === "TRUE" || currentScannedTeam["Check-In Status"] === "Checked In") {
                 banner.className = 'verified-banner denied';
-                banner.innerHTML = `⚠️ ALREADY ADMITTED<br><span style="font-size: 1rem;">Payment ID already verified.</span>`;
+                banner.innerHTML = `ALREADY ADMITTED<br><span style="font-size: 1rem;">Payment ID already verified.</span>`;
                 confirmBtn.style.display = 'none';
                 buildDossierUI();
             } else {
                 banner.className = 'verified-banner';
-                banner.innerHTML = `✅ VERIFIED<br><span style="font-size: 1rem;">PAYMENT AUTHENTICATED</span>`;
+                banner.innerHTML = `VERIFIED<br><span style="font-size: 1rem;">PAYMENT AUTHENTICATED</span>`;
                 confirmBtn.style.display = 'block';
                 buildDossierUI();
             }
