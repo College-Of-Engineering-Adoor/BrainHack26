@@ -590,8 +590,8 @@ Brain Hack'26 Organizing Team</p>
         }
 
         // --- 4. Utilities for Drive links & Encrypted Sheet Sync ---
-        // The URL is encoded in Base64 so it won't appear as a raw link when inspecting the source code.
-        const SECRET_URL_HASH = "aHR0cHM6Ly9jb3JzcHJveHkuaW8vP2h0dHBzJTNBJTJGJTJGZG9jcy5nb29nbGUuY29tJTJGc3ByZWFkc2hlZXRzJTJGZCUyRjF4aDZoOGJ5ZEp0cFpkd0x2OTM2dXNsRnFPUHptTHBYb2F2bXcwWk9sNHdNJTJGZXhwb3J0JTNGZm9ybWF0JTNEY3N2";
+        // The sheet URL is encoded in Base64 to keep it hidden from the source code.
+        const SECRET_URL_HASH = "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMXhoNmg4YnlkSnRwWmR3THY5MzZ1c2xGcU9Qem1McFhvYXZtdzBaT2w0d00vZXhwb3J0P2Zvcm1hdD1jc3Y=";
 
         function extractDriveId(url) {
             if (!url) return null;
@@ -606,8 +606,12 @@ Brain Hack'26 Organizing Team</p>
 
         async function fetchSheetData() {
             try {
-                // Decodes the URL instantly at runtime so it bypasses Google's CORS block
-                const response = await fetch(atob(SECRET_URL_HASH));
+                // Decode the hidden sheet URL
+                const sheetUrl = atob(SECRET_URL_HASH);
+                // Route it through a live-domain-friendly proxy
+                const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetUrl);
+                
+                const response = await fetch(proxyUrl);
                 const text = await response.text();
                 return text;
             } catch (error) {
