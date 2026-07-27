@@ -590,8 +590,8 @@ Brain Hack'26 Organizing Team</p>
         }
 
         // --- 4. Utilities for Drive links & Encrypted Sheet Sync ---
-        // The sheet URL is encoded in Base64 to keep it hidden from the source code.
-        const SECRET_URL_HASH = "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMXhoNmg4YnlkSnRwWmR3THY5MzZ1c2xGcU9Qem1McFhvYXZtdzBaT2w0d00vZXhwb3J0P2Zvcm1hdD1jc3Y=";
+        // This hash points directly to the Google GViz Endpoint, completely eliminating all third-party proxies.
+        const SECRET_URL_HASH = "aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvMXhoNmg4YnlkSnRwWmR3THY5MzZ1c2xGcU9Qem1McFhvYXZtdzBaT2w0d00vZ3Zpei90cT90cXg9b3V0OmNzdg==";
 
         function extractDriveId(url) {
             if (!url) return null;
@@ -608,13 +608,19 @@ Brain Hack'26 Organizing Team</p>
             try {
                 // Decode the hidden sheet URL
                 const sheetUrl = atob(SECRET_URL_HASH);
-                // Route it through a live-domain-friendly proxy
-                const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetUrl);
                 
-                const response = await fetch(proxyUrl);
+                // Fetch directly from Google without any proxies
+                const response = await fetch(sheetUrl);
                 const text = await response.text();
+                
+                // Basic check to ensure we got CSV data back and not a Google login page
+                if (text && text.includes("<!DOCTYPE html>")) {
+                    throw new Error("Sheet requires login.");
+                }
+                
                 return text;
             } catch (error) {
+                console.error("Sync Error:", error);
                 alert("Failed to sync with Google Sheet. Please check your internet connection.");
                 return null;
             }
@@ -799,10 +805,7 @@ Brain Hack'26 Organizing Team</p>
                     let firstUrl = rows[i][paymentIndex].split(',')[0];
                     let driveId = extractDriveId(firstUrl);
                     
-                    // Grab the raw team name, or fall back to "Team X" based on the row index
                     let rawTeamName = teamNameIndex !== -1 && rows[i][teamNameIndex] ? rows[i][teamNameIndex] : `Team ${i}`;
-                    
-                    // Magically detects any number in the team string and subtracts 1 from it
                     let adjustedTeamName = rawTeamName.replace(/\d+/, match => parseInt(match, 10) - 1);
 
                     if (driveId) {
